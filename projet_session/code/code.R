@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 
 # Importer la base de données
-PPB <- read_excel("projet_session/data/PPB.xlsx", col_names = TRUE)
+PPB <- read_excel("C:/Users/lauri/OneDrive/Bureau/Université/Maîtrise/A2024/laurianne-martin.github.io/projet_session/data/PPB.xlsx", col_names = TRUE)
 
 # Séparer les variables en colonnes
 PPB <- PPB %>%

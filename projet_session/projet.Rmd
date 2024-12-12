@@ -46,7 +46,7 @@ library(dplyr)
 library(ggplot2)
 
 # Importer la base de données
-PPB <- read_excel("projet_session/data/PPB.xlsx", col_names = TRUE)
+PPB <- read_excel("C:/Users/lauri/OneDrive/Bureau/Université/Maîtrise/A2024/laurianne-martin.github.io/projet_session/data/PPB.xlsx", col_names = TRUE)
 
 # Séparer les variables en colonnes
 PPB <- PPB %>%
@@ -71,8 +71,7 @@ PPB <- PPB %>%
 
 #Filtrer pour les variables nécessaires à l'analyse
 PPB <- PPB %>%
-  select(province, career, year) %>%
-  filter(province)
+  select(province, career, year)
 
 # Préparer les données pour la visualisation
 PPB_summary <- PPB %>%
@@ -109,9 +108,15 @@ PPB_summary <- PPB_summary %>%
   ungroup() %>%
   mutate(percent = (count / total_count) * 100)  # Calculer le pourcentage
 
+PPB_summary <- PPB_summary %>%
+  mutate(year = as.numeric(year))  # Convertir 'year' en numérique
+
 ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = career_grouped)) +
   geom_line(size = 0.5) +  # Utilisation d'une ligne pour chaque groupe
   facet_wrap(~ province, scales = "fixed") +  # Graphiques par province
+  scale_x_continuous(
+    breaks = seq(min(PPB_summary$year), max(PPB_summary$year), by = 50)  # Tous les 50 ans
+  ) +
   labs(
     title = "Évolution des carrières des politiciens par année et province (en %)",
     x = "Année",
