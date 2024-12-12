@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 
 # Importer la base de données
-PPB <- read_excel("C:/Users/lauri/OneDrive/Bureau/Université/Maîtrise/A2024/laurianne-martin.github.io/projet_session/data/PPB.xlsx", col_names = TRUE)
+PPB <- read_excel("votre_chemin_dacces_vers_PPB.xlsx", col_names = TRUE)
 
 # Séparer les variables en colonnes
 PPB <- PPB %>%
@@ -30,14 +30,13 @@ PPB <- PPB %>%
 #Filtrer pour les variables nécessaires à l'analyse
 PPB <- PPB %>%
   select(province, career, year) %>%
-  filter(province)
 
 # Préparer les données pour la visualisation
 PPB_summary <- PPB %>%
   group_by(year, province, career) %>%
   summarise(count = n(), .groups = "drop")
 
-# Effectuer la visualisation
+# Effectuer les premières visualisations proposées par ChatGPT
 
 ggplot(PPB_summary, aes(x = year, y = count, color = career)) +
   geom_line(size = 1) +
@@ -58,6 +57,12 @@ ggplot(PPB_summary, aes(x = year, y = count, fill = career)) +
        fill = "Carrière") +
   theme_minimal()
 
+### Problème 1: beaucoup trop de variables. Solution : Regrouper les carrières en catégories.
+### Problème 2: l'échelle n'est pas absolue. Solution : Remplacer l'axe des y avec un pourcentage plutôt que le nombre de parlementaires.
+### Problème 3: axe des x illisible à cause des années. Solution: Afficher chaque 50 ans
+### Le geom_line permet de mieux voir l'évolution, mais la ligne est trop épaisse
+
+#Regrouper les carrières en catégories
 
 PPB <- PPB %>%
   mutate(career_grouped = case_when(
@@ -79,6 +84,8 @@ PPB <- PPB %>%
     TRUE ~ as.character(career) # Garder les autres valeurs non prévues
   ))
 
+#Remplacer l'axe des y avec un pourcentage plutôt que le nombre de parlementaires
+
 PPB_summary <- PPB %>%
   count(province, year, career_grouped, name = "count")  # Compter et nommer la colonne "count"
 
@@ -88,38 +95,16 @@ PPB_summary <- PPB_summary %>%
   ungroup() %>%
   mutate(percent = (count / total_count) * 100)  # Calculer le pourcentage
 
-ggplot(PPB_summary, aes(x = year, y = percent, fill = career_grouped)) +
-  geom_bar(stat = "identity", position = "stack") +  # Histogramme empilé
-  facet_wrap(~ province, scales = "fixed") +  # Un graphique par province
-  labs(
-    title = "Répartition des carrières des politiciens par année et province (en %)",
-    x = "Année",
-    y = "Pourcentage des politiciens",
-    fill = "Carrière (regroupée)"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "bottom")
-
-
-ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = career_grouped)) +
-  geom_line(size = 0.5) +  # Utilisation d'une ligne pour chaque groupe
-  facet_wrap(~ province, scales = "fixed") +  # Graphiques par province
-  labs(
-    title = "Évolution des carrières des politiciens par année et province (en %)",
-    x = "Année",
-    y = "Pourcentage des politiciens",
-    color = "Carrière (regroupée)"
-  ) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
+#Solution: Afficher chaque 50 ans
 
 PPB_summary <- PPB_summary %>%
   mutate(year = as.numeric(year))  # Convertir 'year' en numérique
 
+#Le graphique final
+
 ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = career_grouped)) +
-  geom_line(size = 0.5) +  # Courbes pour chaque carrière
-  facet_wrap(~ province, scales = "fixed") +
+  geom_line(size = 0.5) +  # Utilisation d'une ligne pour chaque groupe
+  facet_wrap(~ province, scales = "fixed") +  # Graphiques par province
   scale_x_continuous(
     breaks = seq(min(PPB_summary$year), max(PPB_summary$year), by = 50)  # Tous les 50 ans
   ) +
@@ -129,7 +114,7 @@ ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = c
     y = "Pourcentage des politiciens",
     color = "Carrière (regroupée)"
   ) +
-  theme_minimal() +
+  theme_classic() +
   theme(legend.position = "bottom")
 
 
