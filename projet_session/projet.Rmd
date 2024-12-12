@@ -6,24 +6,28 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-## Question de recherche et hypothèse
+## Question de recherche et revue de littérature
 
-Ma question de recherche est la suivante: Quelle est l'évolution des carrières des politiciens canadiens avant leur carrière en politique? 
+Ma question de recherche est la suivante: Quelle est l'évolution des parcours professionnels des politiciens canadiens avant leur entrée en politique?
 
-Afin de faire un état du savoir sur le sujet, j'ai utilisé l'outil Elicit pour débuter mes recherches. J'ai posé la question suivante : What is the evolution of the typical carrers of canadian politicians before their election? Puisque j'ai la version Pro d'Elicit, j'ai obtenu un résumé des 8 articles les plus pertinents qui répondent à ma question : 
+Afin de faire un état du savoir sur le sujet, j'ai utilisé l'outil Elicit pour débuter mes recherches. J'ai posé la question suivante : What is the evolution of the typical carrers of canadian politicians before their election? Puisque j'ai la version Pro d'Elicit, j'ai obtenu un résumé des 8 articles les plus pertinents qui répondent à ma question. Cela m'a permis de sélectionner rapidement les articles à lire. La plupart de ceux-ci traitaient de carrières ministérielles et de députés au niveau fédéral. En raffinant ma question pour me concentrer sur les carrières des députés provinciaux avant leur entrée en politique, un article s'est montré particulièrement intéressant (Studlar et coll., 1996), avec le court résumé suivant: "The typical careers of Canadian provincial politicians before election are business, education, and law, with little movement from provincial to federal level." (Repéré sur Elicit). Après avoir lu l'article, le résumé d'Elicit était bel et bien représentatif du contenu de la note de recherche. J'ai pu élargir la recherche en demandant plus d'articles similaires aux articles les plus pertinents. 
 
-The evolution of Canadian political careers has seen a shift from predominantly "amateur" politicians to a more diverse landscape. Historically, there was limited movement between provincial and federal levels, with politicians often choosing one path (Barrie & Gibbins, 1989). However, recent changes have led to increased party-switching and varied career patterns (Docherty, 2011). While lawyers have traditionally been overrepresented, their electoral advantage is minimal (Sevi et al., 2020). MPs with diverse political backgrounds are more likely to be appointed to cabinet, with opposition experience being particularly valuable (Kerby & Snagovsky, 2019). Pre-parliamentary experience at the national level is associated with higher chances of reaching cabinet positions (Allen, 2014). Despite these trends, most MPs focus on constituency service due to limited cabinet opportunities (Docherty, 2003). Overall, ministerial careers have become shorter and more diverse since World War II (White, 1998). (Repéré sur Elicit)
+Ainsi, les études antérieures sur le sujet montent que certains domaines sont plus représentés que d'autres, notamment le droit (Sevi et coll., 2020; Studlar et coll., 1996). D'autres domaines surreprésentés sont le monde des affaires et l'éducation (Studlar et coll., 1996). D'autres expériences liées à la politique dans un autre ordre de gouvernement peuvent être utiles dans une carrière comme député, mais les travaux sur l'avantage de l'expérience politique avant une carrière comme député sont mitigés. L'avantage serait plus lors de la nomination de ministres qu'au moment des élections (Kerby & Snagovsky, 2021). Il y aurait de plus en plus de députés qui passent d'un ordre de gouvernement à un autre, alors qu'auparavant, les politiciens choisissaient un ordre de gouvernement et changeaient plus rarement (Docherty, 2011; Barrie & Gibbins, 1989). Cependant, cela reste une minorité de personnes, alors que de plus en plus de politiciens proviennent de milieux diversifiés, faisant d'eux des "amateurs" (Barrie & Gibbins, 1989; Pow, 2015). 
 
-En raffinant ma question pour me concentrer sur les carrières pré-politiques des députés provinciaux, un article s'est montré particulièrement intéressant, avec le court résumé suivant: "The typical careers of Canadian provincial politicians before election are business, education, and law, with little movement from provincial to federal level." (Repéré sur Elicit). Après avoir lu l'article, le résumé d'Elicit était bel et bien représentatif du contenu de la note de recherche. 
+Pour pousser la recherche bibliographique plus loin, il aurait été possible d'utiliser plus d'outils. Premièrement, à partir des articles que je trouve pertinents, j'aurais pu les mettre dans Research Rabbit pour voir des travaux connexes et cités. De plus, Google scholar est un autre outil qui permet de poursuivre la recherche. Il aurait particulièrement bien fonctionné avec des concepts et des opérateurs booléens. J'aurais pu faire des recherches comme "pre-political occupation" & "politician" & "Canada" et varier les concepts selon les résultats de la recherche pour trouver des articles plus pertinents.
+
+J'ai fait le choix de ne pas utiliser d'outil de gestion de la bibliographie comme Zotero dans le cadre de ce travail. Puisque j'ai mobilisé seulement quelques sources dans ce court état du savoir, j'ai préféré continuer avec la méthode que j'utilise habituellement, soit de repérer l'article sur Google Scholar et d'utiliser la citation en APA proposée. Pour trouver les DOI des articles, ceux-ci étaient fournis par Elicit. De plus, l'intégration de fichier bib.tex dans un fichier R Markdown semblait difficile. Si le travail avait été de plus grande envergure, Zotero aurait tout de même un choix intéressant pour garder toutes mes source au même endroit. 
+
+## Hypothèses
 
 À partir des informations trouvées, il est possible de dériver les hypothèses suivantes: 
-H1: Les politiciens canadiens proviennent surtout du domaine du droit ou de l'éducation, du monde des affaires ou de la politique.
-H2: Les carrières des politiciens canadiens sont de plus en plus diversifiées.
 
-Pour pousser la recherche bibliographique plus loin, il aurait été possible d'utiliser plus d'outils. Premièrement, à partir des articles que je trouve pertinents, j'aurais pu les mettre dans Research Rabbit pour voir des travaux connexes et cités. De plus, Google scholar est un autre outil qui permet de poursuivre la recherche.
+H1: Les politiciens canadiens proviennent surtout du domaine du droit, de l'éducation ou du monde des affaires.
+
+H2: Les carrières des politiciens canadiens sont de plus en plus diversifiées.
 
 ## Collecte de données
 
@@ -35,11 +39,9 @@ Après avoir téléchargé le fichier .csv, celui-ci s'ouvrait sous forme de fic
 
 La visualisation préliminaire avait beaucoup trop de catégories et des doublons, par exemple "farmer" et "Farmer". J'ai demandé à ChatGPT de créer des groupes avec différents corps de métiers. J'ai par la suite vérifié et ajusté les catégories proposées, pour terminer avec 15 catégories.
 
-La visualisation choisie est un graphique à ligne brisée qui suit l'évolution du pourcentage de parlementaires d'une législature à provenir d'un certain domaine. Il est assez chargé, mais tout de même lisible si on s'y attarde. Bien que plusieurs catégories se rassemblent avec peu de pourcentages des politiciens, on voit tout de même certaines tendances et surtout, des carrières qui se démarquent auprès des parlementaires dans toutes les provinces. Une grande partie des parlementaires provinnent du monde du droit ou des affaires. Certaines catégories ont connu une baisse avec le temps, comme les personnes avec une carrière religieuse ou en agriculture, tandis que d'autres domaines de métiers sont devenus plus accessibles à des futurs parlementaires, par exemple les personnes provenant du domaine de la santé. Enfin, outre les tendances fortes pour les trois carrières les plus populaires pour les politiciens, il y a des différences enter chaque province, avec des carrières qui n'apparaissent pas dans certaines provinces. La visualisation permet alors de répondre aux deux hypothèses.
-
 Après plusieurs modifications portant sur le type de graphique et le thème le plus approprié pour avoir une visualisation plus agréable à l'oeil, voici le graphique final:
 
-```{r visualisation, echo=FALSE}
+```{r visualisation, fig.width=12, fig.height=8, echo=FALSE}
 library(readxl)
 library(tidyr)
 library(dplyr)
@@ -127,14 +129,46 @@ ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = c
   theme(legend.position = "bottom")
 ```
 
+La visualisation choisie est un graphique à ligne brisée qui suit l'évolution du pourcentage de parlementaires d'une législature à provenir d'un certain domaine. Il est assez chargé, mais tout de même lisible si on s'y attarde. Bien que plusieurs catégories se rassemblent avec peu de pourcentages des politiciens, on voit tout de même certaines tendances et surtout, des carrières qui se démarquent auprès des parlementaires dans toutes les provinces. Une grande partie des parlementaires provinnent du monde du droit ou des affaires. Certaines catégories ont connu une baisse avec le temps, comme les personnes avec une carrière religieuse ou en agriculture, tandis que d'autres domaines de métiers sont devenus plus accessibles à des futurs parlementaires, par exemple les personnes provenant du domaine de la santé. Enfin, outre les tendances fortes pour les trois carrières les plus populaires pour les politiciens, il y a des différences entre chaque province, avec des carrières qui n'apparaissent pas dans certaines provinces. La visualisation permet alors de répondre aux deux hypothèses.
 
-Le code disponible dans le fichier data sur le repository de mon site web (https://github.com/laurianne-martin/laurianne-martin.github.io/tree/main/projet_session) contient les éléments suivants:
+H1 est partiellement réfutée. L'éducation ne ressortait pas comme domaine de carrière pré-politique de façon aussi intense que le droit ou le monde des affaires.
 
-Dans le cadre d'un projet plus avancé, il aurait été intéressant de faire d'autres visualisations, par exemple en se concentrant sur quelques catégories à la fois sur plusieurs graphiques pour mieux saisir l'évolution de chaque domaine de carrière.
+H2 n'est pas réfutée. Les politiciens canadiens semblent effectivement provenir de milieux de plus en plus diversifiés.
+
+Le code R utilisé pour faire cette visualisation est disponible dans le fichier code sur le repository de mon site web (https://github.com/laurianne-martin/laurianne-martin.github.io/tree/main/projet_session) ainsi que directement sur le site web. Celui-ci contient les éléments suivants:
+
+- L'importation de la base de données
+
+- Le nettoyage préliminaire des données pour sélectionner les variables nécessaires à l'analyse
+
+- Deux premières visualisations proposées par ChatGPT
+
+- Mon analyse des problèmes de ces visualisations et des solutions
+
+- La mise en place de ces solutions par des ajouts au code
+
+- La visualisation finale
+
+Dans le cadre d'un projet plus avancé, il aurait été intéressant de faire d'autres visualisations, par exemple en se concentrant sur quelques catégories à la fois en faisant plusieurs graphiques. Cela permettrait de mieux saisir l'évolution de chaque catégorie de carrières.
 
 
 ## Discussion
 
-Ce travail m'a permis d'intégrer et de mettre en pratque l'utilisation de la plupart des outils qui ont été présentés dans le cours. Les outils numériques de recherche sont vraiment utiles tout au long du cycle de la recherche. De plus, les outils d'intelligence artificielle aident également à atteindre de nouveaux sommets dans la création de travaux de grande qualité, tant que l'on sait bien s'en servir. Par exemple, ChatGPT m'a beaucoup aidé dans la création du travail. Il me proposait des pistes de solution lorsque mon code ne fonctionnait pas. Également, c'est avec ChatGPT que j'ai pu tester de nouvelles visualisations pour sélectionner la meilleure. Cependant, le travail de ChatGPT reste à vérifier en tout temps, car  les réponses données ne sont pas toujours exactes.
+Ce travail m'a permis d'intégrer et de mettre en pratique l'utilisation de la plupart des outils qui ont été présentés dans le cours. Les outils numériques de recherche sont vraiment utiles tout au long du cycle de la recherche. De plus, les outils d'intelligence artificielle aident également à atteindre de nouveaux sommets dans la création de travaux de grande qualité, tant que l'on sait bien s'en servir. Par exemple, ChatGPT m'a beaucoup aidé dans la création du travail. Il me proposait des pistes de solution lorsque mon code ne fonctionnait pas. Également, c'est avec ChatGPT que j'ai pu tester de nouvelles visualisations pour sélectionner la meilleure. Cependant, le travail de ChatGPT reste à vérifier en tout temps, car  les réponses données ne sont pas toujours exactes. Il s'agit par contre d'un bon point de départ, puisque je n'ai pas eu à créer le code à partir de rien. Mon travail a surtout été de peaufiner le code pour l'adapter à mes besoins.
 
-Pour ce qui est des autres outils choisis dans le cadre de ce projet, j'ai d'abord choisi Elicit pour l'état du savoir, car il me permettait d'aller chercher plusieurs articles à la fois ainsi que leur résumé. Pour un petit travail comme celui-ci, cet outil répondait le mieux à mes besoins. De plus, ayant la version Pro d'Elicit depuis peu, ce travail m'a permis de me familiariser encore plus avec l'outil pour une meilleure utilisation dans des travaux futurs. Ensuite, j'ai choisi d'utiliser R pour la lecture, l'analyse et la visualisation de mes données. J'ai fait ce choix d'abord parce que je trouvais qu'il était plus facile de tout faire en R plutôt qu'utiliser plusieurs outils différents, d'autant plus que ce projet est un projet RMarkdown, donc l'intégration de ces deux outils était optimale. De plus, je sais que j'aurai à utiliser la base de données choisie pour mon mémoire de maîtrise. Ce travail m'a permis de me pratiquer à faire des visualisations préliminaires avec ggplot. Enfin, R est transparent et réplicable, ce qui est un atout majeur dans la recherche scientifique.
+Pour ce qui est des autres outils choisis dans le cadre de ce projet, j'ai d'abord choisi Elicit pour l'état du savoir, car il me permettait d'aller chercher plusieurs articles à la fois ainsi que leur résumé. Pour un petit travail comme celui-ci, cet outil répondait le mieux à mes besoins. De plus, ayant la version Pro d'Elicit depuis peu, ce travail m'a permis de me familiariser encore plus avec l'outil pour une meilleure utilisation dans des travaux futurs. Ensuite, j'ai choisi d'utiliser R pour la lecture, l'analyse et la visualisation de mes données. J'ai fait ce choix d'abord parce que je trouvais qu'il était plus facile de tout faire en R plutôt qu'utiliser plusieurs outils différents, d'autant plus que ce projet est un projet RMarkdown, donc l'intégration de ces deux outils était optimale. De plus, je sais que j'aurai à utiliser la base de données choisie pour mon mémoire de maîtrise. Ce travail m'a permis de me pratiquer à faire des visualisations préliminaires avec ggplot. Enfin, R est transparent et réplicable, ce qui est un atout majeur dans la recherche scientifique. J'ai d'ailleurs pu rendre disponible le code utilisé tout au long de ma démarche de visualisation afin que quiconque puisse répliquer ou critiquer mes résultats. D'ailleurs, puisque le tout est hébergé sur Github, une personne pourrait regarder mon code, proposer d'autres catégories de carrière (puisque ce codage était en partie manuel et pourrait être biaisé par mes choix) et faire un pull request pour améliorer mon analyse. Cela reflète les valeurs de travail d'équipe et de code source ouvert dans la philosophie du logiciel libre.
+
+## Bibliographie
+
+Barrie, D., & Gibbins, R. (1989). Parliamentary careers in the Canadian federal state. Canadian Journal of Political Science/Revue canadienne de science politique, 22(1), 137-145. https://doi.org/10.1017/S0008423900000871 
+
+Docherty, D. (2011). The Canadian political career structure: from stability to free agency. Regional and Federal Studies, 21(2), 185-203. https://doi.org/10.1080/13597566.2011.530018
+
+Kerby, M., & Snagovsky, F. (2021). Not all experience is created equal: MP career typologies and ministerial appointments in the Canadian House of Commons, 1968–2015. Government and Opposition, 56(2), 326-344. https://doi.org/10.1017/gov.2019.29
+
+Pow, J. T. (2015). Leave it to the amateurs: a career development explanation of political experience among Members of the Canadian Parliament (Mémoire de maîtrise, University of British Columbia). https://doi.org/10.14288/1.0166641
+
+Sevi, S., Blais, A., & Mayer, D. (2020). Do lawyers get more votes?. American Review of Canadian Studies, 50(2), 216-228. https://doi.org/10.1080/02722011.2020.1771527
+
+Studlar, D. T., Alexander, D. L., Cohen, J. E., Ashley, M. J., Ferrence, R. G., & Pollard, J. S. (2000). A social and political profile of Canadian legislators, 1996. https://doi.org/10.1080/13572330008420624
+
