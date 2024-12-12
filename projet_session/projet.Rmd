@@ -1,7 +1,7 @@
 ---
-title: "projet"
+title: "POL6078: Projet de session"
 author: "Laurianne Martin"
-date: "2024-12-10"
+date: "2024-12-13"
 output: html_document
 ---
 
@@ -9,22 +9,127 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Question de recherche et hypothèse
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Ma question de recherche est la suivante: Quelle est l'évolution des carrières des politiciens canadiens depuis 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Afin de faire un état du savoir sur le sujet, j'ai utilisé l'outil Elicit pour débuter mes recherches. J'ai posé la question suivante : What is the evolution of the typical carrers of canadian politicians before their election? Puisque j'ai la version Pro d'Elicit, j'ai obtenu un résumé des 8 articles les plus pertinents qui répondent à ma question : 
 
-```{r cars}
-summary(cars)
+The evolution of Canadian political careers has seen a shift from predominantly "amateur" politicians to a more diverse landscape. Historically, there was limited movement between provincial and federal levels, with politicians often choosing one path (Barrie & Gibbins, 1989). However, recent changes have led to increased party-switching and varied career patterns (Docherty, 2011). While lawyers have traditionally been overrepresented, their electoral advantage is minimal (Sevi et al., 2020). MPs with diverse political backgrounds are more likely to be appointed to cabinet, with opposition experience being particularly valuable (Kerby & Snagovsky, 2019). Pre-parliamentary experience at the national level is associated with higher chances of reaching cabinet positions (Allen, 2014). Despite these trends, most MPs focus on constituency service due to limited cabinet opportunities (Docherty, 2003). Overall, ministerial careers have become shorter and more diverse since World War II (White, 1998). (Repéré sur Elicit)
+
+En raffinant ma question pour me concentrer sur les carrières pré-politiques des députés provinciaux, un article s'est montré particulièrement intéressant, avec le court résumé suivant: "The typical careers of Canadian provincial politicians before election are business, education, and law, with little movement from provincial to federal level." (Repéré sur Elicit). Après avoir lu l'article, le résumé d'Elicit était bel et bien représentatif du contenu de la note de recherche. 
+
+À partir des informations trouvées, il est possible de dériver les hypothèses suivantes: 
+H1: Les politiciens canadiens proviennent surtout du domaine du droit ou de l'éducation, du monde des affaires ou de la politique.
+H2: Les carrières des politiciens canadiens sont de plus en plus diversifiées.
+
+Pour pousser la recherche bibliographique plus loin, il aurait été possible d'utiliser plus d'outils. Premièrement, à partir des articles que je trouve pertinents, j'aurais pu les mettre dans Research Rabbit pour voir des travaux connexes et cités. De plus, Google scholar est un autre outil qui permet de poursuivre la recherche.
+
+## Collecte de données
+
+Afin de répondre à la question de recherche, j'ai utilisé une base de données disponible en libre accès au lien suivant: https://doi.org/10.7910/DVN/LZPEFQ. Celle-ci recense les données biographiques de tous les parlementaires provinciaux de quatre provinces: le Québec, l'Ontario, le Nouveau Brunswick et la Nouvelle Écosse. Les données contiennent entre autres l'année d'élection et la carrière, en plus des liens de famille, du pourcentage de voix obtenues à l'élection et si le parlementaire a eu un poste de ministre après son élection. Après un bon nettoyage des données, toutes les variables pertinentes pour répondre à ma question de recherche sont présentes. J'estime que les quatre provinces permettent de faire une bonne recherche et de voir des tendances.
+
+Après avoir téléchargé le fichier .csv, celui-ci s'ouvrait sous forme de fichier Excel (.xlsx). Puisque mes analyses et visualisations de données se faisaient en R, j'ai importé la base de données dans mon environnement R avec la fonction read_excel du package readxl. J'étais prête à nettoyer, analyser et visualiser mes données.
+
+## Analyse et visualisation des données
+
+La visualisation préliminaire avait beaucoup trop de catégories et des doublons, par exemple "farmer" et "Farmer". J'ai demandé à ChatGPT de créer des groupes avec différents corps de métiers. J'ai par la suite vérifié et ajusté les catégories proposées, pour terminer avec 15 catégories.
+
+La visualisation choisie est un graphique à ligne brisée qui suit l'évolution du pourcentage de parlementaires d'une législature à provenir d'un certain domaine. Il est assez chargé, mais tout de même lisible si on s'y attarde. Bien que plusieurs catégories se rassemblent avec peu de pourcentages des politiciens, on voit tout de même certaines tendances et surtout, des carrières qui se démarquent auprès des parlementaires dans toutes les provinces. Une grande partie des parlementaires provinnent du monde du droit ou des affaires. Certaines catégories ont connu une baisse avec le temps, comme les personnes avec une carrière religieuse ou en agriculture, tandis que d'autres domaines de métiers sont devenus plus accessibles à des futurs parlementaires, par exemple les personnes provenant du domaine de la santé. Enfin, outre les tendances fortes pour les trois carrières les plus populaires pour les politiciens, il y a des différences enter chaque province, avec des carrières qui n'apparaissent pas dans certaines provinces. La visualisation permet alors de répondre aux deux hypothèses.
+
+Après plusieurs modifications portant sur le type de graphique et le thème le plus approprié pour avoir une visualisation plus agréable à l'oeil, voici le graphique final:
+
+```{r visualisation, echo=FALSE}
+library(readxl)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+
+# Importer la base de données
+PPB <- read_excel("projet_session/data/PPB.xlsx", col_names = TRUE)
+
+# Séparer les variables en colonnes
+PPB <- PPB %>%
+  separate(col = 1, 
+           into = c("id", "first_last", "province", "district", "gender", 
+                    "year_of_birth", "year_of_death", "place_of_birth", 
+                    "career", "religion", "type", "mmd", "year", 
+                    "candidate_votes", "total_valid_votes", "candidate_percent", 
+                    "margin", "exit_year", "party", "minister_after_election", 
+                    "pre_relative", "post_relative", "familytie1name", 
+                    "familytie1link", "familytie2name", "familytie2link", 
+                    "familytie3link", "familytie3name", "familytie4link", 
+                    "familytie4name", "familytie5link", "familytie5name", 
+                    "familytie6link", "familytie6name", "familytie7link", 
+                    "familytie7name", "familytie8link", "familytie8name", 
+                    "familytie9link", "familytie9name", "familytie10link", 
+                    "familytie10name", "familytie11link", "familytie11name", 
+                    "familytie12link", "familytie12name", "familytie13link", 
+                    "familytie13name"), 
+           sep = ",")
+
+
+#Filtrer pour les variables nécessaires à l'analyse
+PPB <- PPB %>%
+  select(province, career, year) %>%
+  filter(province)
+
+# Préparer les données pour la visualisation
+PPB_summary <- PPB %>%
+  group_by(year, province, career) %>%
+  summarise(count = n(), .groups = "drop")
+
+# Créer les catégories
+PPB <- PPB %>%
+  mutate(career_grouped = case_when(
+    career %in% c("lawyer", "Lawyer", "law", "jurist", "judge", "Judge", "Attorney", "notarialpractice") ~ "Droit",
+    career %in% c("journalism", "Journalist", "journalsim", "communications", "author", "Author", "Printer", "publisher", "writer", "Surveyor", "surveying") ~ "Journalisme & Communication",
+    career %in% c("business", "Business", "Entrepreneur", "merchant", 'Merchant', "Banker", "Fur trader", "Contractor", "realestateagent", "Landowner") ~ "Monde des affaires",
+    career %in% c("agriculture", "farmer", "Farmer", "forestry", "butcher") ~ "Agriculture",
+    career %in% c("Doctor", "medicine", "medicalcare", "Physician", "dentalmedicine", "pharmacy", "optometry", "Surgeon", "psychology", "veterinarymedicine") ~ "Santé",
+    career %in% c("Engineer", "engineering", "computerscience", "locomotiveengineer") ~ "Ingénierie",
+    career %in% c("teacher", "education") ~ "Éducation",
+    career %in% c("politicalstaff", "Politician", "politics", "Public official", "Public servant", "publicservice", "politicalscience", "Immigration agent", "civilservice", "Mayor", "Office holder", "Mohawk chief") ~ "Politique & Fonction publique",
+    career %in% c("catholic", "Methodist clergyman", "methodist minister", "religion", "Religion", "Reeve") ~ "Religion",
+    career %in% c("architecture", "Architect", "architect") ~ "Architecture",
+    career %in% c("blacksmith", "Blacksmith", "carpentry", "Carpenter", "Miller", "lumberman") ~ "Construction",
+    career %in% c("military", "Military", "police", "policeofficer", "Sheriff") ~ "Police et militaire",
+    career %in% c("navigation", "pilot") ~ "Transport",
+    career %in% c("tradeunionist", "unionism") ~ "Syndicalisme",
+    career %in% c("NA", "worker", "Innkeeper", "innkeeper", "Tanner", "shorthand", "communitywork", "artist", "athlete") ~ "Autre/NA",
+    TRUE ~ as.character(career) # Garder les autres valeurs non prévues
+  ))
+
+PPB_summary <- PPB %>%
+  count(province, year, career_grouped, name = "count")  # Compter et nommer la colonne "count"
+
+PPB_summary <- PPB_summary %>%
+  group_by(year, province) %>%
+  mutate(total_count = sum(count, na.rm = TRUE)) %>%  # Calculer le total des occurrences par groupe
+  ungroup() %>%
+  mutate(percent = (count / total_count) * 100)  # Calculer le pourcentage
+
+ggplot(PPB_summary, aes(x = year, y = percent, color = career_grouped, group = career_grouped)) +
+  geom_line(size = 0.5) +  # Utilisation d'une ligne pour chaque groupe
+  facet_wrap(~ province, scales = "fixed") +  # Graphiques par province
+  labs(
+    title = "Évolution des carrières des politiciens par année et province (en %)",
+    x = "Année",
+    y = "Pourcentage des politiciens",
+    color = "Carrière (regroupée)"
+  ) +
+  theme_classic() +
+  theme(legend.position = "bottom")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+Le code disponible dans le fichier data sur le repository de mon site web (https://github.com/laurianne-martin/laurianne-martin.github.io/tree/main/projet_session) contient les éléments suivants:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+Dans le cadre d'un projet plus avancé, il aurait été intéressant de faire d'autres visualisations, par exemple en se concentrant sur quelques catégories à la fois sur plusieurs graphiques pour mieux saisir l'évolution de chaque domaine de carrière.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Discussion
+
+Ce travail m'a permis d'intégrer et de mettre en pratque l'utilisation de la plupart des outils qui ont été présentés dans le cours. Les outils numériques de recherche sont vraiment utiles tout au long du cycle de la recherche. De plus, les outils d'intelligence artificielle aident également à atteindre de nouveaux sommets dans la création de travaux de grande qualité, tant que l'on sait bien s'en servir. Par exemple, ChatGPT m'a beaucoup aidé dans la création du travail. Il me proposait des pistes de solution lorsque mon code ne fonctionnait pas. Également, c'est avec ChatGPT que j'ai pu tester de nouvelles visualisations pour sélectionner la meilleure. Cependant, le travail de ChatGPT reste à vérifier en tout temps, car  les réponses données ne sont pas toujours exactes.
+
+Pour ce qui est des autres outils choisis dans le cadre de ce projet, j'ai d'abord choisi Elicit pour l'état du savoir, car il me permettait d'aller chercher plusieurs articles à la fois ainsi que leur résumé. Pour un petit travail comme celui-ci, cet outil répondait le mieux à mes besoins. De plus, ayant la version Pro d'Elicit depuis peu, ce travail m'a permis de me familiariser encore plus avec l'outil pour une meilleure utilisation dans des travaux futurs. Ensuite, j'ai choisi d'utiliser R pour la lecture, l'analyse et la visualisation de mes données. J'ai fait ce choix d'abord parce que je trouvais qu'il était plus facile de tout faire en R plutôt qu'utiliser plusieurs outils différents, d'autant plus que ce projet est un projet RMarkdown, donc l'intégration de ces deux outils était optimale. De plus, je sais que j'aurai à utiliser la base de données choisie pour mon mémoire de maîtrise. Ce travail m'a permis de me pratiquer à faire des visualisations préliminaires avec ggplot. Enfin, R est transparent et réplicable, ce qui est un atout majeur dans la recherche scientifique.

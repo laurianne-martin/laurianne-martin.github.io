@@ -11,9 +11,9 @@
 
 <meta name="author" content="Laurianne Martin" />
 
-<meta name="date" content="2024-12-10" />
+<meta name="date" content="2024-12-13" />
 
-<title>projet</title>
+<title>POL6078: Projet de session</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,30 +350,78 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">projet</h1>
+<h1 class="title toc-ignore">POL6078: Projet de session</h1>
 <h4 class="author">Laurianne Martin</h4>
-<h4 class="date">2024-12-10</h4>
+<h4 class="date">2024-12-13</h4>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="question-de-recherche-et-hypothèse" class="section level2">
+<h2>Question de recherche et hypothèse</h2>
+<p>Ma question de recherche est la suivante: Quelle est l’évolution des
+carrières des politiciens</p>
+<p>Afin de faire un état du savoir sur le sujet, j’ai utilisé l’outil
+Elicit pour débuter mes recherches. J’ai posé la question suivante :
+QUOI. Après avoir regardé les</p>
+<p>Pour pousser la recherche bibliographique plus loin, il aurait été
+possible d’utiliser plus d’outils. Premièrement, avec des articles que
+je trouve pertinents, j’aurais pu les mettre dans Research Rabbit pour
+voir des travaux connexes et cités. De plus, Google scholar est un autre
+outil qui permet de poursuivre la recherche.</p>
+</div>
+<div id="collecte-de-données" class="section level2">
+<h2>Collecte de données</h2>
+<p>Afin de répondre à la question de recherche, j’ai utilisé une base de
+données disponible en libre accès au lien suivant: <a href="https://doi.org/10.7910/DVN/LZPEFQ" class="uri">https://doi.org/10.7910/DVN/LZPEFQ</a>. Celle-ci recense les
+données biographiques de tous les parlementaires provinciaux de quatre
+provinces: le Québec, l’Ontario, le Nouveau Brunswick et la Nouvelle
+Écosse. Les données contiennent entre autres l’année d’élection et la
+carrière, en plus des liens de famille, du pourcentage de voix obtenues
+à l’élection et si le parlementaire a eu un poste de ministre après son
+élection. Après un bon nettoyage des données, toutes les variables
+pertinentes pour répondre à ma question de recherche sont présentes.
+J’estime que les quatre provinces permettent de faire une bonne
+recherche et de voir des tendances Après avoir téléchargé le fichier
+.csv, celui-ci s’ouvrait sous forme de fichier Excel (.xlsx). Puisque
+mes analyses et visualisations de données se faisaient en R, j’ai
+importé la base de données dans mon environnement R avec la fonction
+read_excel du package readxl. J’étais prête à nettoyer, analyser et
+visualiser mes données.</p>
+</div>
+<div id="analyse-et-visualisation-des-données" class="section level2">
+<h2>Analyse et visualisation des données</h2>
+<p>La visualisation préliminaire avait beaucoup trop de catégories et
+des doublons, par exemple “farmer” et “Farmer”. J’ai demandé à ChatGPT
+de créer des groupes avec différents corps de métiers. J’ai par la suite
+vérifié et ajusté les catégories proposées, pour terminer avec 15
+catégories.</p>
+<p>La visualisation choisie est un graphique à ligne brisée qui suit
+l’évolution du pourcentage de parlementaires d’une législature à
+provenir d’un certain domaine. Il est assez chargé, mais tout de même
+lisible si on s’y attarde. Bien que plusieurs catégories se rassemblent
+avec peu de pourcentages des politiciens, on voit tout de même certaines
+tendances et surtout, des carrières qui se démarquent auprès des
+parlementaires dans toutes les provinces. Une grande partie des
+parlementaires provinnent du monde du droit ou des affaires. Certaines
+catégories ont connu une baisse avec le temps, comme les personnes avec
+une carrière religieuse ou en agriculture, tandis que d’autres domaines
+de métiers sont devenus plus accessibles à des futurs parlementaires,
+par exemple les personnes provenant du domaine de la santé. Enfin, outre
+les tendances fortes pour les trois carrières les plus populaires pour
+les politiciens, il y a des différences enter chaque province, avec des
+carrières qui n’apparaissent pas dans certaines provinces</p>
+<p>Après plusieurs modifications portant sur le type de graphique et le
+thème le plus approprié pour avoir une visualisation plus simple, voici
+le graphique final:</p>
+<p>Le code disponible dans le fichier data sur le repository de mon site
+web (<a href="https://github.com/laurianne-martin/laurianne-martin.github.io/tree/main/projet_session" class="uri">https://github.com/laurianne-martin/laurianne-martin.github.io/tree/main/projet_session</a>)
+contient les éléments suivants:</p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>ChatGPT a beaucoup aidé dans la création du travail. Il me proposait
+des</p>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
